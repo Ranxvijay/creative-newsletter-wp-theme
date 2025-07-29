@@ -1,0 +1,310 @@
+# Copyright (C) 2024 Creative Theme Dev
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Creative Newsletter 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/creative-newsletter\n"
+"POT-Creation-Date: 2024-01-01 00:00:00+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2024-01-01 00:00+0000\n"
+"Last-Translator: Creative Theme Dev\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: WordPress\n"
+
+#: header.php
+msgid "Skip to content"
+msgstr ""
+
+#: header.php
+msgid "Menu"
+msgstr ""
+
+#: header.php, footer.php
+msgid "Home"
+msgstr ""
+
+#: header.php, footer.php
+msgid "Blog"
+msgstr ""
+
+#: header.php, footer.php
+msgid "Products"
+msgstr ""
+
+#: header.php, footer.php
+msgid "Newsletter"
+msgstr ""
+
+#: footer.php
+msgid "A modern WordPress theme for creative professionals and newsletter publishers."
+msgstr ""
+
+#: footer.php
+msgid "Quick Links"
+msgstr ""
+
+#: footer.php
+msgid "Connect"
+msgstr ""
+
+#: footer.php
+msgid "Email Us"
+msgstr ""
+
+#: footer.php
+msgid "Twitter"
+msgstr ""
+
+#: footer.php
+msgid "LinkedIn"
+msgstr ""
+
+#: footer.php
+msgid "GitHub"
+msgstr ""
+
+#: footer.php
+msgid "All rights reserved."
+msgstr ""
+
+#: index.php
+msgid "Welcome to Creative Newsletter"
+msgstr ""
+
+#: index.php
+msgid "A modern WordPress theme for creative professionals"
+msgstr ""
+
+#: index.php
+msgid "Get Started"
+msgstr ""
+
+#: index.php
+msgid "Latest Articles"
+msgstr ""
+
+#: index.php
+msgid "Read More"
+msgstr ""
+
+#: index.php
+msgid "No articles found. Create some posts to see them here!"
+msgstr ""
+
+#: index.php
+msgid "View All Articles"
+msgstr ""
+
+#: index.php
+msgid "Featured Products"
+msgstr ""
+
+#: index.php
+msgid "View Product"
+msgstr ""
+
+#: index.php
+msgid "Learn More"
+msgstr ""
+
+#: index.php
+msgid "No products found. Create some products to see them here!"
+msgstr ""
+
+#: index.php
+msgid "View All Products"
+msgstr ""
+
+#: index.php
+msgid "Subscribe to Our Newsletter"
+msgstr ""
+
+#: index.php
+msgid "Stay updated with our latest articles and products."
+msgstr ""
+
+#: index.php
+msgid "Enter your email address"
+msgstr ""
+
+#: index.php
+msgid "Subscribe"
+msgstr ""
+
+#: functions.php
+msgid "Primary Menu"
+msgstr ""
+
+#: functions.php
+msgid "Footer Menu"
+msgstr ""
+
+#: functions.php
+msgid "Loading..."
+msgstr ""
+
+#: functions.php
+msgid "An error occurred. Please try again."
+msgstr ""
+
+#: functions.php
+msgid "Primary Sidebar"
+msgstr ""
+
+#: functions.php
+msgid "Add widgets here to appear in your sidebar."
+msgstr ""
+
+#: functions.php
+msgid "Footer Widget Area 1"
+msgstr ""
+
+#: functions.php
+msgid "Add widgets here to appear in the first footer area."
+msgstr ""
+
+#: functions.php
+msgid "Footer Widget Area 2"
+msgstr ""
+
+#: functions.php
+msgid "Add widgets here to appear in the second footer area."
+msgstr ""
+
+#: functions.php
+msgid "Footer Widget Area 3"
+msgstr ""
+
+#: functions.php
+msgid "Add widgets here to appear in the third footer area."
+msgstr ""
+
+#: functions.php
+msgid "Products"
+msgstr ""
+
+#: functions.php
+msgid "Product"
+msgstr ""
+
+#: functions.php
+msgid "Add New"
+msgstr ""
+
+#: functions.php
+msgid "Add New Product"
+msgstr ""
+
+#: functions.php
+msgid "Edit Product"
+msgstr ""
+
+#: functions.php
+msgid "New Product"
+msgstr ""
+
+#: functions.php
+msgid "View Product"
+msgstr ""
+
+#: functions.php
+msgid "Search Products"
+msgstr ""
+
+#: functions.php
+msgid "No products found"
+msgstr ""
+
+#: functions.php
+msgid "No products found in trash"
+msgstr ""
+
+#: functions.php
+msgid "Product Details"
+msgstr ""
+
+#: functions.php
+msgid "Regular Price"
+msgstr ""
+
+#: functions.php
+msgid "Sale Price"
+msgstr ""
+
+#: functions.php
+msgid "External Link"
+msgstr ""
+
+#: functions.php
+msgid "Featured Product"
+msgstr ""
+
+#: functions.php
+msgid "Security check failed"
+msgstr ""
+
+#: functions.php
+msgid "Please enter a valid email address."
+msgstr ""
+
+#: functions.php
+msgid "Thank you for subscribing to our newsletter!"
+msgstr ""
+
+#: functions.php
+msgid "You are already subscribed to our newsletter."
+msgstr ""
+
+#: functions.php
+msgid "Hero Section"
+msgstr ""
+
+#: functions.php
+msgid "Hero Title"
+msgstr ""
+
+#: functions.php
+msgid "Hero Subtitle"
+msgstr ""
+
+#: functions.php
+msgid "Hero CTA Text"
+msgstr ""
+
+#: functions.php
+msgid "Hero CTA URL"
+msgstr ""
+
+#: functions.php
+msgid "Primary Color"
+msgstr ""
+
+#: functions.php
+msgid "Newsletter Section"
+msgstr ""
+
+#: functions.php
+msgid "Newsletter Title"
+msgstr ""
+
+#: functions.php
+msgid "Newsletter Description"
+msgstr ""
+
+#: functions.php
+msgid "Newsletter Subscribers"
+msgstr ""
+
+#: functions.php
+msgid "Total Subscribers: %d"
+msgstr ""
+
+#: functions.php
+msgid "Email Address"
+msgstr ""
+
+#: functions.php
+msgid "No subscribers yet."
+msgstr ""
