@@ -15,6 +15,9 @@ if (!defined('ABSPATH')) {
  * Theme Setup
  */
 function creative_newsletter_setup() {
+    // Make theme available for translation
+    load_theme_textdomain('creative-newsletter', get_template_directory() . '/languages');
+    
     // Add theme support for various features
     add_theme_support('title-tag');
     add_theme_support('post-thumbnails');
@@ -165,9 +168,10 @@ function creative_newsletter_register_products_post_type() {
 add_action('init', 'creative_newsletter_register_products_post_type');
 
 /**
- * Add Custom Meta Boxes for Products
+ * Add Custom Meta Boxes for Products and Pages
  */
-function creative_newsletter_add_product_meta_boxes() {
+function creative_newsletter_add_meta_boxes() {
+    // Product meta boxes
     add_meta_box(
         'product-details',
         __('Product Details', 'creative-newsletter'),
@@ -176,9 +180,89 @@ function creative_newsletter_add_product_meta_boxes() {
         'normal',
         'high'
     );
+    
+    // Landing page meta boxes
+    add_meta_box(
+        'landing-page-settings',
+        __('Landing Page Settings', 'creative-newsletter'),
+        'creative_newsletter_landing_page_callback',
+        'page',
+        'normal',
+        'high'
+    );
 }
-add_action('add_meta_boxes', 'creative_newsletter_add_product_meta_boxes');
+add_action('add_meta_boxes', 'creative_newsletter_add_meta_boxes');
 
+/**
+ * Landing Page Meta Box Callback
+ */
+function creative_newsletter_landing_page_callback($post) {
+    // Only show for landing page template
+    $template = get_page_template_slug($post->ID);
+    if ($template !== 'page-landing.php') {
+        echo '<p>' . __('This meta box is only available for the Landing Page template.', 'creative-newsletter') . '</p>';
+        return;
+    }
+    
+    wp_nonce_field(basename(__FILE__), 'landing_page_nonce');
+    
+    $hero_title = get_post_meta($post->ID, '_landing_hero_title', true);
+    $hero_subtitle = get_post_meta($post->ID, '_landing_hero_subtitle', true);
+    $cta_text = get_post_meta($post->ID, '_landing_cta_text', true);
+    $cta_url = get_post_meta($post->ID, '_landing_cta_url', true);
+    $show_newsletter = get_post_meta($post->ID, '_landing_show_newsletter', true);
+    
+    ?>
+    <table class="form-table">
+        <tr>
+            <th><label for="landing_hero_title"><?php _e('Hero Title', 'creative-newsletter'); ?></label></th>
+            <td><input type="text" id="landing_hero_title" name="landing_hero_title" value="<?php echo esc_attr($hero_title); ?>" style="width: 100%;" placeholder="<?php esc_attr_e('Custom hero title (optional)', 'creative-newsletter'); ?>" /></td>
+        </tr>
+        <tr>
+            <th><label for="landing_hero_subtitle"><?php _e('Hero Subtitle', 'creative-newsletter'); ?></label></th>
+            <td><textarea id="landing_hero_subtitle" name="landing_hero_subtitle" rows="3" style="width: 100%;" placeholder="<?php esc_attr_e('Custom hero subtitle (optional)', 'creative-newsletter'); ?>"><?php echo esc_textarea($hero_subtitle); ?></textarea></td>
+        </tr>
+        <tr>
+            <th><label for="landing_cta_text"><?php _e('CTA Button Text', 'creative-newsletter'); ?></label></th>
+            <td><input type="text" id="landing_cta_text" name="landing_cta_text" value="<?php echo esc_attr($cta_text); ?>" placeholder="<?php esc_attr_e('Get Started', 'creative-newsletter'); ?>" /></td>
+        </tr>
+        <tr>
+            <th><label for="landing_cta_url"><?php _e('CTA Button URL', 'creative-newsletter'); ?></label></th>
+            <td><input type="url" id="landing_cta_url" name="landing_cta_url" value="<?php echo esc_attr($cta_url); ?>" style="width: 100%;" placeholder="<?php esc_attr_e('https://example.com', 'creative-newsletter'); ?>" /></td>
+        </tr>
+        <tr>
+            <th><label for="landing_show_newsletter"><?php _e('Show Newsletter Section', 'creative-newsletter'); ?></label></th>
+            <td><input type="checkbox" id="landing_show_newsletter" name="landing_show_newsletter" value="1" <?php checked($show_newsletter, '1'); ?> /></td>
+        </tr>
+    </table>
+    
+    <style>
+    .landing-page-meta-box {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f9f9f9;
+        border-radius: 5px;
+    }
+    </style>
+    
+    <script>
+    jQuery(document).ready(function($) {
+        // Show/hide meta box based on page template
+        function toggleLandingPageMeta() {
+            var template = $('#page_template').val();
+            if (template === 'page-landing.php') {
+                $('#landing-page-settings').show();
+            } else {
+                $('#landing-page-settings').hide();
+            }
+        }
+        
+        toggleLandingPageMeta();
+        $('#page_template').on('change', toggleLandingPageMeta);
+    });
+    </script>
+    <?php
+}
 /**
  * Product Details Meta Box Callback
  */
@@ -213,40 +297,72 @@ function creative_newsletter_product_details_callback($post) {
 }
 
 /**
- * Save Product Meta Data
+ * Save Product and Landing Page Meta Data
  */
-function creative_newsletter_save_product_meta($post_id) {
-    if (!isset($_POST['product_details_nonce']) || !wp_verify_nonce($_POST['product_details_nonce'], basename(__FILE__))) {
-        return;
+function creative_newsletter_save_meta_data($post_id) {
+    // Save product meta data
+    if (isset($_POST['product_details_nonce']) && wp_verify_nonce($_POST['product_details_nonce'], basename(__FILE__))) {
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+        
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
+        }
+        
+        if (isset($_POST['product_price'])) {
+            update_post_meta($post_id, '_product_price', sanitize_text_field($_POST['product_price']));
+        }
+        
+        if (isset($_POST['product_sale_price'])) {
+            update_post_meta($post_id, '_product_sale_price', sanitize_text_field($_POST['product_sale_price']));
+        }
+        
+        if (isset($_POST['product_external_link'])) {
+            update_post_meta($post_id, '_product_external_link', esc_url_raw($_POST['product_external_link']));
+        }
+        
+        if (isset($_POST['product_featured'])) {
+            update_post_meta($post_id, '_product_featured', '1');
+        } else {
+            delete_post_meta($post_id, '_product_featured');
+        }
     }
     
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-        return;
-    }
-    
-    if (!current_user_can('edit_post', $post_id)) {
-        return;
-    }
-    
-    if (isset($_POST['product_price'])) {
-        update_post_meta($post_id, '_product_price', sanitize_text_field($_POST['product_price']));
-    }
-    
-    if (isset($_POST['product_sale_price'])) {
-        update_post_meta($post_id, '_product_sale_price', sanitize_text_field($_POST['product_sale_price']));
-    }
-    
-    if (isset($_POST['product_external_link'])) {
-        update_post_meta($post_id, '_product_external_link', esc_url_raw($_POST['product_external_link']));
-    }
-    
-    if (isset($_POST['product_featured'])) {
-        update_post_meta($post_id, '_product_featured', '1');
-    } else {
-        delete_post_meta($post_id, '_product_featured');
+    // Save landing page meta data
+    if (isset($_POST['landing_page_nonce']) && wp_verify_nonce($_POST['landing_page_nonce'], basename(__FILE__))) {
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+        
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
+        }
+        
+        if (isset($_POST['landing_hero_title'])) {
+            update_post_meta($post_id, '_landing_hero_title', sanitize_text_field($_POST['landing_hero_title']));
+        }
+        
+        if (isset($_POST['landing_hero_subtitle'])) {
+            update_post_meta($post_id, '_landing_hero_subtitle', sanitize_textarea_field($_POST['landing_hero_subtitle']));
+        }
+        
+        if (isset($_POST['landing_cta_text'])) {
+            update_post_meta($post_id, '_landing_cta_text', sanitize_text_field($_POST['landing_cta_text']));
+        }
+        
+        if (isset($_POST['landing_cta_url'])) {
+            update_post_meta($post_id, '_landing_cta_url', esc_url_raw($_POST['landing_cta_url']));
+        }
+        
+        if (isset($_POST['landing_show_newsletter'])) {
+            update_post_meta($post_id, '_landing_show_newsletter', '1');
+        } else {
+            delete_post_meta($post_id, '_landing_show_newsletter');
+        }
     }
 }
-add_action('save_post', 'creative_newsletter_save_product_meta');
+add_action('save_post', 'creative_newsletter_save_meta_data');
 
 /**
  * Newsletter Signup Handler
